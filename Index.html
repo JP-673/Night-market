@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Night Market — Combos fusión</title>
+  <meta name="description" content="Dark kitchen de combos fusión con envase retornable en Monte Hermoso." />
+  <meta property="og:title" content="Night Market" />
+  <meta property="og:description" content="Combos fusión con vibra de night market. Envase retornable, depósito simple." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0b0f14" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>html{scroll-behavior:smooth}</style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-[#06080c] via-[#070a10] to-[#0b0f14] text-white">
+  <!-- SVG: Logo reutilizable -->
+  <svg aria-hidden="true" style="position:absolute; width:0; height:0; overflow:hidden"><defs>
+    <filter id="neon-cyan" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="5.5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="nmb-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#67e8f9"/><stop offset="100%" stop-color="#f0abfc"/></linearGradient>
+    <symbol id="nmb-logo" viewBox="0 0 600 260">
+      <rect x="8" y="8" rx="28" width="584" height="244" fill="none" stroke="#0ea5b7" stroke-opacity="0.35" stroke-width="8"/>
+      <text x="60" y="140" fill="none" stroke="#67e8f9" stroke-width="6" font-family="'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial" font-weight="900" font-size="88" letter-spacing="3" filter="url(#neon-cyan)">NIGHT MARKET</text>
+      <path d="M60 170 H540" stroke="url(#nmb-grad)" stroke-width="8" stroke-linecap="round" filter="url(#neon-cyan)"/>
+    </symbol>
+  </defs></svg>
+
+  <!-- NAV -->
+  <div class="sticky top-0 z-30 border-b border-white/10 bg-black/40 backdrop-blur supports-[backdrop-filter]:bg-black/30">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12">
+          <svg viewBox="0 0 600 260" class="w-full h-full drop-shadow-[0_0_20px_rgba(34,211,238,0.35)]" aria-label="Night Market logo"><use href="#nmb-logo"/></svg>
+        </div>
+        <div>
+          <div class="text-sm uppercase tracking-widest text-cyan-300">Night Market</div>
+          <div class="text-xs text-white/60">combos • fusión • envase retornable</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="#menu" class="hidden sm:block text-sm text-white/80 hover:text-white">Menú</a>
+        <a href="#builder" class="hidden sm:block text-sm text-white/80 hover:text-white">Armar combo</a>
+        <a href="#retornable" class="hidden sm:block text-sm text-white/80 hover:text-white">Retornable</a>
+        <button id="btnCartOpen" class="rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-sm hover:bg-white/15">Carrito <span id="cartCount" class="ml-1 rounded bg-fuchsia-500 px-2 py-0.5 text-xs text-black hidden">0</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="relative">
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(168,85,247,.25),transparent_40%),radial-gradient(circle_at_80%_0%,rgba(34,211,238,.25),transparent_35%),radial-gradient(circle_at_50%_80%,rgba(16,185,129,.25),transparent_40%)]"></div>
+    <div class="mx-auto max-w-6xl px-4 py-20">
+      <div class="max-w-2xl">
+        <div class="mb-3 flex flex-wrap gap-2 text-cyan-200">
+          <span class="inline-flex items-center rounded-full border border-cyan-400/40 bg-cyan-400/5 px-3 py-1 text-xs">Monte Hermoso</span>
+          <span class="inline-flex items-center rounded-full border border-cyan-400/40 bg-cyan-400/5 px-3 py-1 text-xs">Entrega nocturna</span>
+          <span class="inline-flex items-center rounded-full border border-cyan-400/40 bg-cyan-400/5 px-3 py-1 text-xs">Depósito retornable</span>
+        </div>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl">Comida fusión con alma de <span class="text-cyan-300">night market</span></h1>
+        <p class="mt-3 text-white/70">Street food asiática pensada para la costa. Hacé tu pedido, devolvé el envase cuando quieras y seguí disfrutando la noche.</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#builder" class="rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-black hover:bg-cyan-300">Hacé tu pedido</a>
+          <a href="#menu" class="rounded-xl border border-white/20 px-5 py-3 font-semibold text-white/90 hover:bg-white/10">Ver combos</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENÚ -->
+  <section id="menu" class="relative py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="mb-2 text-sm uppercase tracking-widest text-cyan-300/80">Menú</div>
+      <h2 class="mb-6 text-2xl sm:text-3xl font-semibold text-white">Combos firma</h2>
+      <div id="comboGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section id="builder" class="relative py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="mb-2 text-sm uppercase tracking-widest text-cyan-300/80">Personalizá</div>
+      <h2 class="mb-6 text-2xl sm:text-3xl font-semibold text-white">Armá tu combo</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <div class="space-y-4" id="builderOptions"></div>
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+            <h4 class="mb-3 font-semibold text-white">Tu combo</h4>
+            <div id="boxSummary" class="space-y-3"></div>
+          </div>
+          <div class="rounded-2xl border border-white/10 bg-white/5 p-4 text-white/80">
+            <h4 class="mb-2 font-semibold text-white">Cómo funciona</h4>
+            <ol class="space-y-2 text-sm">
+              <li>1. Pagás tu combo + el depósito del envase.</li>
+              <li>2. Te llega caliente en <b>Monte Hermoso</b> y alrededores.</li>
+              <li>3. Devolvés el envase limpio cuando quieras.</li>
+              <li>4. Recuperás el depósito en efectivo o como crédito.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RETORNABLE -->
+  <section id="retornable" class="relative py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <div class="mb-2 text-sm uppercase tracking-widest text-cyan-300/80">Círculo virtuoso</div>
+      <h2 class="mb-6 text-2xl sm:text-3xl font-semibold text-white">Envase retornable, circuito infinito</h2>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="mb-2 text-lg font-semibold text-white">Depósito simple</div><p class="text-sm text-white/70">Pagás un depósito único por el envase <span id="depositText"></span>.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="mb-2 text-lg font-semibold text-white">Devolución flexible</div><p class="text-sm text-white/70">Lo devolvés en tu próximo pedido o en un punto amigo.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="mb-2 text-lg font-semibold text-white">Reembolso instantáneo</div><p class="text-sm text-white/70">Recibís el depósito en efectivo o como crédito.</p></div>
+      </div>
+      <div class="mt-6 rounded-2xl border border-cyan-400/30 bg-cyan-400/10 p-4 text-sm text-cyan-100">Bonus: si devolvés 3 envases juntos, sumás un <b>topping a elección</b> gratis.</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="relative py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="mb-6 text-2xl sm:text-3xl font-semibold text-white">Preguntas rápidas</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="font-semibold">¿Cobertura?</div><p class="text-white/70">Monte Hermoso y alrededores. Horario: 19:30–00:30.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="font-semibold">¿Pago?</div><p class="text-white/70">Efectivo, débito/crédito y QR. El depósito se devuelve con el mismo medio o como crédito.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="font-semibold">¿Alergias?</div><p class="text-white/70">Consultanos por opciones sin gluten/lactosa. Puede haber trazas por cocina compartida.</p></div>
+        <div class="rounded-2xl border border-white/10 bg-white/5 p-5"><div class="font-semibold">¿Contacto?</div><p class="text-white/70">WhatsApp o Instagram DM. Próximamente tienda online.</p></div>
+      </div>
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#builder" class="rounded-xl bg-fuchsia-500 px-5 py-3 font-semibold text-black hover:bg-fuchsia-400">Hacé tu pedido</a>
+        <a href="#" class="rounded-xl border border-white/20 px-5 py-3 font-semibold text-white/90 hover:bg-white/10">Ver puntos amigo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="mt-20 border-t border-white/10 py-10 text-center text-sm text-white/60">
+    <div class="mb-2 flex items-center justify-center gap-2">
+      <div class="w-10 h-10"><svg viewBox="0 0 600 260" class="w-full h-full drop-shadow-[0_0_16px_rgba(34,211,238,0.35)]" aria-hidden="true"><use href="#nmb-logo"/></svg></div>
+      <span class="font-semibold tracking-wide text-white">Night Market</span>
+    </div>
+    <p>Dark kitchen de combos fusión — Monte Hermoso, Buenos Aires.</p>
+    <p class="mt-1">© <span id="year"></span> Night Market</p>
+  </footer>
+
+  <!-- CART DRAWER -->
+  <div id="cartOverlay" class="fixed inset-0 z-40 hidden">
+    <div class="absolute inset-0 bg-black/60" id="cartBackdrop"></div>
+    <aside class="absolute right-0 top-0 h-full w-full max-w-md overflow-y-auto border-l border-white/10 bg-[#0b0f14] p-5 shadow-2xl">
+      <div class="mb-4 flex items-center justify-between">
+        <div class="text-lg font-semibold">Tu carrito</div>
+        <button id="btnCartClose" class="rounded-lg border border-white/20 px-3 py-1 text-sm hover:bg-white/10">Cerrar</button>
+      </div>
+      <div id="cartEmpty" class="text-white/60">Todavía no agregaste nada. Probá un combo o armá el tuyo.</div>
+      <div id="cartItems" class="space-y-3 hidden"></div>
+      <div id="cartTotalRow" class="hidden flex items-center justify-between border-t border-white/10 pt-3 text-lg font-semibold mt-3"><span>Total</span><span id="cartTotal"></span></div>
+      <a id="cartCheckout" href="#" target="_blank" rel="noreferrer" class="hidden mt-3 block w-full rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 px-4 py-3 text-center font-semibold text-black hover:opacity-95">Finalizar por WhatsApp</a>
+      <p class="text-xs text-white/50 mt-1">El número de WhatsApp es de ejemplo. Reemplazalo por el tuyo.</p>
+    </aside>
+  </div>
+
+  <script>
+    // -------- DATA --------
+    const BASES = [{ id: "arroz_blanco", name: "Arroz blanco", price: 1100 }];
+    const PROTEINS = [
+      { id: "pollo_teriyaki", name: "Pollo Teriyaki", price: 2900 },
+      { id: "cerdo_bbq_k", name: "Cerdo BBQ coreano", price: 3300 },
+      { id: "tofu_crispy", name: "Tofu crispy (veg)", price: 2700 },
+      { id: "langostinos", name: "Langostinos al wok", price: 3800 },
+    ];
+    const SIDES = [
+      { id: "gyoza3", name: "Gyozas x3", price: 1600 },
+      { id: "kimchi", name: "Kimchi", price: 1200 },
+      { id: "ensalada_wakame", name: "Ensalada wakame", price: 1400 },
+      { id: "bao", name: "Mini Bao", price: 1500 },
+    ];
+    const DRINKS = [
+      { id: "lima_yuzu", name: "Limonada con yuzu", price: 1500 },
+      { id: "te_matcha", name: "Té matcha frío", price: 1700 },
+      { id: "ramune", name: "Soda Ramuné", price: 2200 },
+    ];
+    const COMBOS = [
+      { id: "seoul_bulgogi", name: "SEOUL BULGOGI", desc: "Arroz blanco + Bulgogi de res al sello + Kimchi + Ensalada wakame", price: 8600, img: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?q=80&w=800&auto=format&fit=crop" },
+      { id: "teriyaki_crunch", name: "TERIYAKI CRUNCH", desc: "Arroz blanco + Pollo teriyaki laqueado + Topping crocante (panko/cebolla) + Gyozas x3", price: 8200, img: "https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=800&auto=format&fit=crop" },
+      { id: "gochujang_fire", name: "GOCHUJANG FIRE", desc: "Arroz blanco + Cerdo o tofu al gochujang + Pepino encurtido + Limonada yuzu", price: 8800, img: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?q=80&w=800&auto=format&fit=crop" },
+      { id: "kchimi_beef", name: "K-CHIMI BEEF", desc: "Arroz blanco + Tira de res en láminas + Chimi coreano (gochu+hierbas) + Bao mini", price: 8400, img: "https://images.unsplash.com/photo-1574484284002-952d92456975?q=80&w=800&auto=format&fit=crop" },
+    ];
+    const DEPOSIT = 2500;
+
+    // -------- UTILS --------
+    const fmt = new Intl.NumberFormat('es-AR');
+    const $$ = s => document.querySelector(s);
+    const money = v => `$${fmt.format(v)}`;
+
+    // -------- MENU RENDER --------
+    function renderCombos(){
+      const grid = $$('#comboGrid');
+      grid.innerHTML = '';
+      COMBOS.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4';
+        let thumb = '';
+        if (c.img) {
+          thumb = `<img src="${c.img}" alt="${c.name}" loading="lazy" class="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full object-cover ring-2 ring-cyan-300/40 shadow-2xl"/>`;
+        } else {
+          thumb = `<div class=\"pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full border border-cyan-400/30 bg-gradient-to-br from-cyan-400/20 to-fuchsia-400/20\"></div>`;
+        }
+        card.innerHTML = `
+          ${thumb}
+          <div class="mb-2 text-lg font-semibold text-white">${c.name}</div>
+          <p class="mb-4 text-sm text-white/70">${c.desc}</p>
+          <div class="flex items-center justify-between">
+            <div class="text-white/80">${money(c.price)}</div>
+            <button class="rounded-lg bg-cyan-400 px-3 py-2 text-sm font-semibold text-black hover:bg-cyan-300 active:scale-[.98]">Agregar</button>
+          </div>`;
+        card.querySelector('button').addEventListener('click', () => addToCart({ ...c }));
+        grid.appendChild(card);
+      });
+    }
+
+    // -------- BUILDER --------
+    const state = { base: BASES[0].id, protein: PROTEINS[0].id, sides: [], drink: '' };
+
+    function selectedItems(){
+      const b = BASES.find(x=>x.id===state.base);
+      const p = PROTEINS.find(x=>x.id===state.protein);
+      const s = SIDES.filter(x=>state.sides.includes(x.id));
+      const d = DRINKS.find(x=>x.id===state.drink);
+      const subtotal = (b?.price||0) + (p?.price||0) + s.reduce((a,c)=>a+c.price,0) + (d?.price||0);
+      return {b,p,s,d, subtotal};
+    }
+
+    function renderBuilder(){
+      const wrap = $$('#builderOptions');
+      wrap.innerHTML = '';
+
+      // Base
+      const baseBox = document.createElement('div');
+      baseBox.className = 'rounded-2xl border border-white/10 bg-white/5 p-4';
+      baseBox.innerHTML = `<h4 class=\"mb-2 font-semibold text-white\">1) Base</h4><div class=\"grid gap-2 sm:grid-cols-3\" id=\"baseGrid\"></div>`;
+      wrap.appendChild(baseBox);
+      const baseGrid = baseBox.querySelector('#baseGrid');
+      BASES.forEach(b=>{
+        const lab = document.createElement('label');
+        lab.className = `cursor-pointer rounded-xl border p-3 ${state.base===b.id? 'border-cyan-400 bg-cyan-400/10':'border-white/10 bg-transparent'}`;
+        lab.innerHTML = `<div class=\"text-white\">${b.name}</div><div class=\"text-xs text-white/60\">${money(b.price)}</div>`;
+        lab.addEventListener('click', ()=>{state.base=b.id; renderBuilder();});
+        baseGrid.appendChild(lab);
+      });
+
+      // Protein
+      const protBox = document.createElement('div');
+      protBox.className = 'rounded-2xl border border-white/10 bg-white/5 p-4';
+      protBox.innerHTML = `<h4 class=\"mb-2 font-semibold text-white\">2) Proteína</h4><div class=\"grid gap-2 sm:grid-cols-2\" id=\"protGrid\"></div>`;
+      wrap.appendChild(protBox);
+      const protGrid = protBox.querySelector('#protGrid');
+      PROTEINS.forEach(p=>{
+        const lab = document.createElement('label');
+        lab.className = `cursor-pointer rounded-xl border p-3 ${state.protein===p.id? 'border-fuchsia-400 bg-fuchsia-400/10':'border-white/10 bg-transparent'}`;
+        lab.innerHTML = `<div class=\"text-white\">${p.name}</div><div class=\"text-xs text-white/60\">${money(p.price)}</div>`;
+        lab.addEventListener('click', ()=>{state.protein=p.id; renderBuilder();});
+        protGrid.appendChild(lab);
+      });
+
+      // Sides (max 2)
+      const sideBox = document.createElement('div');
+      sideBox.className = 'rounded-2xl border border-white/10 bg-white/5 p-4';
+      sideBox.innerHTML = `<h4 class=\"mb-2 font-semibold text-white\">3) Acompañamientos (elegí hasta 2)</h4><div class=\"grid gap-2 sm:grid-cols-2\" id=\"sideGrid\"></div>`;
+      wrap.appendChild(sideBox);
+      const sideGrid = sideBox.querySelector('#sideGrid');
+      SIDES.forEach(s=>{
+        const checked = state.sides.includes(s.id);
+        const disabled = !checked && state.sides.length>=2;
+        const lab = document.createElement('label');
+        lab.className = `cursor-pointer rounded-xl border p-3 ${checked? 'border-amber-300 bg-amber-300/10' : disabled? 'opacity-50 border-white/10' : 'border-white/10'}`;
+        lab.innerHTML = `<div class=\"text-white\">${s.name}</div><div class=\"text-xs text-white/60\">${money(s.price)}</div>`;
+        lab.addEventListener('click', ()=>{
+          if (checked) state.sides = state.sides.filter(id=>id!==s.id);
+          else if(state.sides.length<2) state.sides=[...state.sides, s.id];
+          renderBuilder();
+        });
+        sideGrid.appendChild(lab);
+      });
+
+      // Drinks
+      const drinkBox = document.createElement('div');
+      drinkBox.className = 'rounded-2xl border border-white/10 bg-white/5 p-4';
+      drinkBox.innerHTML = `<h4 class=\"mb-2 font-semibold text-white\">4) Bebida (opcional)</h4><div class=\"grid gap-2 sm:grid-cols-3\" id=\"drinkGrid\"></div>`;
+      wrap.appendChild(drinkBox);
+      const drinkGrid = drinkBox.querySelector('#drinkGrid');
+      const none = document.createElement('label');
+      none.className = `cursor-pointer rounded-xl border p-3 ${state.drink===''? 'border-sky-300 bg-sky-300/10':'border-white/10'}`;
+      none.innerHTML = `<div class=\"text-white\">Sin bebida</div><div class=\"text-xs text-white/60\">$0</div>`;
+      none.addEventListener('click', ()=>{state.drink=''; renderBuilder();});
+      drinkGrid.appendChild(none);
+      DRINKS.forEach(d=>{
+        const lab = document.createElement('label');
+        lab.className = `cursor-pointer rounded-xl border p-3 ${state.drink===d.id? 'border-sky-300 bg-sky-300/10':'border-white/10'}`;
+        lab.innerHTML = `<div class=\"text-white\">${d.name}</div><div class=\"text-xs text-white/60\">${money(d.price)}</div>`;
+        lab.addEventListener('click', ()=>{state.drink=d.id; renderBuilder();});
+        drinkGrid.appendChild(lab);
+      });
+
+      renderSummary();
+    }
+
+    // -------- SUMMARY / CART --------
+    function renderSummary(){
+      const box = $$('#boxSummary');
+      const sel = selectedItems();
+      box.innerHTML = '';
+      function itemRow(it){
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between rounded-xl border border-white/10 bg-white/5 p-3';
+        row.innerHTML = `<div><div class=\"font-medium text-white\">${it.name}</div><div class=\"text-sm text-white/60\">${money(it.price)}</div></div>`;
+        return row;
+      }
+      if(sel.b) box.appendChild(itemRow(sel.b));
+      if(sel.p) box.appendChild(itemRow(sel.p));
+      sel.s.forEach(s=>box.appendChild(itemRow(s)));
+      if(sel.d) box.appendChild(itemRow(sel.d));
+
+      const sub = document.createElement('div');
+      sub.className = 'flex items-center justify-between border-t border-white/10 pt-3 text-white/80';
+      sub.innerHTML = `<span>Subtotal</span><span>${money(sel.subtotal)}</span>`;
+      box.appendChild(sub);
+
+      const dep = document.createElement('div');
+      dep.className = 'flex items-center justify-between text-white/60';
+      dep.innerHTML = `<span>Depósito envase retornable</span><span>${money(DEPOSIT)}</span>`;
+      box.appendChild(dep);
+
+      const tot = document.createElement('div');
+      tot.className = 'flex items-center justify-between text-lg font-semibold text-white';
+      tot.innerHTML = `<span>Total de hoy</span><span>${money(sel.subtotal+DEPOSIT)}</span>`;
+      box.appendChild(tot);
+
+      const note = document.createElement('p');
+      note.className = 'text-xs text-white/50';
+      note.innerHTML = `Recuperás el <b>depósito (${money(DEPOSIT)})</b> cuando devolvés el envase o en tu siguiente pedido.`;
+      box.appendChild(note);
+
+      const btn = document.createElement('button');
+      btn.className = 'mt-2 w-full rounded-xl bg-gradient-to-r from-fuchsia-500 to-cyan-400 px-4 py-3 font-semibold text-black hover:opacity-95 active:scale-[.99]';
+      btn.textContent = 'Agregar al carrito';
+      btn.addEventListener('click', ()=> addToCart({ ...sel, total: sel.subtotal + DEPOSIT }));
+      box.appendChild(btn);
+    }
+
+    const cart = [];
+    function updateCartBadge(){ const c = $$('#cartCount'); if(cart.length){ c.textContent = cart.length; c.classList.remove('hidden'); } else { c.classList.add('hidden'); } }
+    function addToCart(item){ cart.push(item); updateCartBadge(); openCart(); renderCart(); }
+    function openCart(){ $$('#cartOverlay').classList.remove('hidden'); }
+    function closeCart(){ $$('#cartOverlay').classList.add('hidden'); }
+
+    function renderCart(){
+      const empty = $$('#cartEmpty');
+      const list = $$('#cartItems');
+      const totalRow = $$('#cartTotalRow');
+      const totalEl = $$('#cartTotal');
+      const checkout = $$('#cartCheckout');
+
+      if(!cart.length){ empty.classList.remove('hidden'); list.classList.add('hidden'); totalRow.classList.add('hidden'); checkout.classList.add('hidden'); return; }
+
+      empty.classList.add('hidden'); list.classList.remove('hidden'); list.innerHTML = '';
+      let total = 0;
+      cart.forEach((c, i)=>{
+        const price = c.total || c.price || 0; total += price;
+        const div = document.createElement('div');
+        div.className = 'rounded-xl border border-white/10 bg-white/5 p-3';
+        const desc = c.desc || [c.b?.name, c.p?.name, ...(c.s?.map(x=>x.name)||[]), c.d?.name].filter(Boolean).join(' • ');
+        div.innerHTML = `<div class=\"flex items-start justify-between gap-3\"><div><div class=\"font-medium text-white\">${c.name || 'Combo personalizado'}</div><div class=\"text-xs text-white/60\">${desc}</div></div><div class=\"text-white/80\">${money(price)}</div></div>`;
+        list.appendChild(div);
+      });
+
+      totalEl.textContent = money(total); totalRow.classList.remove('hidden'); checkout.classList.remove('hidden');
+      const msg = encodeURIComponent('Hola Night Market! Quiero hacer un pedido.');
+      const lineas = cart.map((c, idx)=>{ const label = c.name || 'Combo personalizado'; const price = c.total || c.price || 0; const desc = c.desc || [c.b?.name, c.p?.name, ...(c.s?.map(x=>x.name)||[]), c.d?.name].filter(Boolean).join(' • '); return `${idx+1}) ${label} — ${desc} — ${money(price)}`; }).join('%0A');
+      const totalTxt = encodeURIComponent(`Total: ${money(total)}`);
+      const phone = '5492910000000';
+      checkout.href = `https://wa.me/${phone}?text=${msg}%0A%0A${lineas}%0A%0A${totalTxt}`;
+    }
+
+    // -------- INIT + BASIC TESTS --------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Year + deposit line
+      const y = document.getElementById('year'); if (y) y.textContent = new Date().getFullYear();
+      const depEl = document.getElementById('depositText'); if(depEl) depEl.textContent = `(${money(DEPOSIT)})`;
+
+      // Render
+      renderCombos();
+      renderBuilder();
+      updateCartBadge();
+
+      // Drawer events
+      const btnOpen=$$('#btnCartOpen'), btnClose=$$('#btnCartClose'), bd=$$('#cartBackdrop');
+      btnOpen && btnOpen.addEventListener('click', openCart);
+      btnClose && btnClose.addEventListener('click', closeCart);
+      bd && bd.addEventListener('click', closeCart);
+
+      // --- Minimal tests (no cambian UX) ---
+      try {
+        console.assert(COMBOS.length === 4, 'Se esperan 4 combos');
+        console.assert(BASES.length === 1 && BASES[0].name === 'Arroz blanco', 'La base única debe ser Arroz blanco');
+        const cards = document.querySelectorAll('#comboGrid > div');
+        console.assert(cards.length === 4, 'Debe renderizar 4 tarjetas de combo');
+      } catch (e) {
+        console.error('Tests fallaron:', e);
+        const warn = document.createElement('div');
+        warn.className = 'mx-auto max-w-6xl my-4 rounded-xl border border-amber-400/30 bg-amber-400/10 p-3 text-amber-200';
+        warn.textContent = '⚠️ Hubo un problema cargando el menú. Reintentá o avisá al administrador.';
+        document.body.prepend(warn);
+      }
+    });
+  </script>
+</body>
+</html>
